@@ -50,7 +50,7 @@ RUN npm install -g bower
 
 ENV SOURCE_BRANCH=master
 ENV SOURCE_REPO=https://github.com/overstreetce/COS-Site.git
-ENV UPDATE_CMD 'pip install -U -r requirements.txt && gosu www-data bower install --config.interactive=false && gosu www-data python manage.py collectstatic --noinput'
+ENV UPDATE_CMD 'pip install -U -r requirements.txt && gosu www-data bower install --config.interactive=false'
 
 # gosu www-data npm install --production
 
@@ -66,7 +66,7 @@ RUN git clone -b $SOURCE_BRANCH $SOURCE_REPO . \
 
 RUN pip install -r requirements.txt
 RUN pip install psycopg2
-# RUN bower install --config.interactive=false
+RUN bower install --config.interactive=false
 # RUN gosu www-data python manage.py collectstatic --noinput
 # RUN gosu www-data python manage.py migrate
 # RUN gosu www-data python manage.py createsuperuser
