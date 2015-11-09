@@ -66,9 +66,9 @@ RUN git clone -b $SOURCE_BRANCH $SOURCE_REPO . \
 
 RUN pip install -r requirements.txt
 RUN pip install psycopg2
-RUN gosu www-data bower install --config.interactive=false
+# RUN bower install --config.interactive=false
 # RUN gosu www-data python manage.py collectstatic --noinput
-RUN gosu www-data python manage.py migrate
+# RUN gosu www-data python manage.py migrate
 # RUN gosu www-data python manage.py createsuperuser
 
 COPY entrypoint.sh /entrypoint.sh
