@@ -4,8 +4,8 @@ tmpdata:
   image: busybox:latest
   volumes:
     - /home
-    - /Users/michael/.cos/cos/testing/local.py:/home/.cos/local.py
-    - /Users/michael/.cos/cos/testing/uwsgi.ini:/etc/uwsgi/uwsgi.ini
+    - /Users/mattclark/.cos/cos/test/local.py:/code/mysite/local_settings.py
+    - /Users/mattclark/.cos/cos/test/uwsgi.ini:/etc/uwsgi/uwsgi.ini
     - /etc/uwsgi
     - /tmp
 
@@ -14,13 +14,15 @@ tmpdata:
 
 postgres:
   image: centerforopenscience/postgres:9.4
+  environment:
+    - POSTGRES_DB=cos_staging
   expose:
     - 5432
-  volumes_from:
-    - tmpdata
+#  volumes_from:
+#    - tmpdata
 
 memcached:
-  image: centerforopenscience/memcached:latest
+  image: memcached:latest
   expose:
     - 11211
 
@@ -33,7 +35,8 @@ web:
   environment:
     - SOURCE_BRANCH=master
     # - SOURCE_REPO=https://github.com/ZobairAlijan/COS-Site.git
-    - SOURCE_REPO=https://github.com/icereval/cos-small.git
+    # - SOURCE_REPO=https://github.com/icereval/cos-small.git
+    - SOURCE_REPO=https://github.com/overstreetce/COS-Site.git
   ports:
     - 8000:8000
   expose:
