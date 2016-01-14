@@ -1,18 +1,18 @@
 
 # Storage Containers
 
-# storage:
-#   image: busybox:latest
-#   volumes:
-#     - /tmp
-#     # - /code
-#     - /data/db
-#
-#
-# # Service Containers
-#
-# rabbitmq:
-#   image: rabbitmq:latest
+storage:
+ image: busybox:latest
+ volumes:
+   - /tmp
+   # - /code
+   - /data/db
+
+
+# Service Containers
+
+rabbitmq:
+ image: rabbitmq:latest
 
 elasticsearch:
   image: elasticsearch:latest
@@ -22,11 +22,11 @@ tokumx:
   environment:
     - TOKU_HUGE_PAGES_OK=1
 
-# cas:
-#   image: centerforopenscience/cas:4.1
-#   ports:
-#     - 8080:8080
-#     - 8443:8443
+#cas:
+# image: centerforopenscience/cas:4.1
+# ports:
+#   - 8080:8080
+#   - 8443:8443
 
 
 # Server Containers
@@ -48,6 +48,21 @@ tokumx:
 #   volumes:
 #     - ./settings/local.py:/code/website/settings/local.py
 #   volumes_from: []
+
+#waterbutler:
+#  build: ../waterbutler
+#  command: 'invoke server'
+#  environment:
+#    - SOURCE_BRANCH=develop
+#    - SOURCE_REPO=https://github.com/CenterForOpenScience/waterbutler
+#  ports:
+#    - 7777:7777
+#  expose:
+#    - 7777
+#  links:
+#    - rabbitmq:rabbitmq
+#  volumes_from:
+#    - storage
 
 api:
   tty: true
@@ -72,32 +87,33 @@ api:
   # volumes_from:
   #   - storage
 
-# sharejs:
-#   build: ./sharejs
-#   command: invoke sharejs
-#   environment:
-#     # - SOURCE_BRANCH=develop
-#     - SOURCE_REPO=https://github.com/CenterForOpenScience/osf.io.git
-#     - SHAREJS_SERVER_HOST=0.0.0.0
-#     - SHAREJS_SERVER_PORT=7007
-#     - SHAREJS_CORS_ALLOW_ORIGIN=http://localhost:5000
-#     - SHAREJS_DB_HOST=tokumx
-#     - SHAREJS_DB_PORT=27017
-#     - SHAREJS_DB_NAME=sharejs
-#     - SHAREJS_DEBUG=false
-#   expose:
-#     - 7007
-#   ports:
-#     - 7007:7007
-#   links:
-#     - tokumx:tokumx
+#sharejs:
+##   build: ./sharejs
+# image: centerforopenscience/osf:sharejs
+# command: invoke sharejs
+# environment:
+#   # - SOURCE_BRANCH=develop
+#   - SOURCE_REPO=https://github.com/CenterForOpenScience/osf.io.git
+#   - SHAREJS_SERVER_HOST=0.0.0.0
+#   - SHAREJS_SERVER_PORT=7007
+#   - SHAREJS_CORS_ALLOW_ORIGIN=http://localhost:5000
+#   - SHAREJS_DB_HOST=tokumx
+#   - SHAREJS_DB_PORT=27017
+#   - SHAREJS_DB_NAME=sharejs
+#   - SHAREJS_DEBUG=false
+# expose:
+#   - 7007
+# ports:
+#   - 7007:7007
+# links:
+#   - tokumx:tokumx
 
 web:
   tty: true
   # build: ./web
   image: centerforopenscience/osf:web
-  # command: invoke server --host 0.0.0.0 --port 5000
-  command: /bin/sh -c "while true; do echo hello world; sleep 1; done"
+  command: invoke server --host 0.0.0.0 --port 5000
+  #command: /bin/sh -c "while true; do echo hello world; sleep 1; done"
   environment:
     # - SOURCE_BRANCH=develop
     # - SOURCE_REPO=https://github.com/CenterForOpenScience/osf.io.git
@@ -109,20 +125,30 @@ web:
   links:
     - tokumx:tokumx
     - elasticsearch:elasticsearch
-    # - rabbitmq:rabbitmq
+    - rabbitmq:rabbitmq
   volumes:
     - ./settings/local-docker.py:/code/website/settings/local.py
   # volumes_from:
   #   - storage
 
-# celery:
+celery:
 #   build: ./server
-#   command: 'invoke celery'
-#   environment:
-#     # - SOURCE_BRANCH=develop
-#     - SOURCE_REPO=https://github.com/CenterForOpenScience/osf.io.git
-#     - UPDATE_CMD="invoke requirements --dev --addons"
-#   links:
-#     - rabbitmq:rabbitmq
-#   volumes_from:
-#     - storage
+ image: centerforopenscience/osf:celery
+ command: 'invoke celery'
+ environment:
+   # - SOURCE_BRANCH=develop
+   - SOURCE_REPO=https://github.com/CenterForOpenScience/osf.io.git
+   - UPDATE_CMD="invoke requirements --dev --addons"
+ links:
+   - rabbitmq:rabbitmq
+ volumes_from:
+   - storage
+
+#prerender:
+##  build: ../prerender/.
+#  image: centerforopenscience/osf:web
+#  links:
+#    - web:web
+#
+#nginx:
+#  build: ../nginx/.
