@@ -49,7 +49,7 @@ RUN apt-get update \
 RUN npm install -g bower
 
 ENV SOURCE_BRANCH=master
-ENV SOURCE_REPO=https://github.com/overstreetce/COS-Site.git
+ENV SOURCE_REPO=https://github.com/centerforopenscience/cos.io.git
 ENV UPDATE_CMD 'pip install -U -r requirements.txt && gosu www-data bower install --config.interactive=false'
 
 # gosu www-data npm install --production
