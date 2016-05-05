@@ -53,7 +53,7 @@ RUN apt-get update \
 
 ENV SOURCE_BRANCH develop
 # ENV SOURCE_BRANCH master
-ENV SOURCE_REPO https://github.com/CenterForOpenScience/osf.io.git
+ENV SOURCE_REPO https://github.com/crcresearch/osf.io/
 ENV UPDATE_CMD 'gosu www-data npm install --production'
 
 RUN pip install -U pip
