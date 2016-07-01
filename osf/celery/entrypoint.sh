@@ -31,6 +31,7 @@ if $updated; then
         # https://cosdev.readthedocs.org/en/latest/osf/common_problems.html#error-when-importing-uritemplate
         pip uninstall uritemplate.py --yes || true
         pip install uritemplate.py==0.3.0
+        pip install invoke==0.13.0 -U
         eval $UPDATE_CMD
     fi
 fi
