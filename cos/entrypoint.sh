@@ -35,7 +35,7 @@ if $updated; then
 fi
 echo "$commit_head" > /tmp/.commit
 
-if [ "$1" = 'invoke' ]; then
+if [ "$1" = 'python' ]; then
     echo "Starting: $@"
     exec gosu www-data "$@"
 fi
