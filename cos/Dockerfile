@@ -48,9 +48,9 @@ RUN apt-get update \
 
 RUN npm install -g bower
 
-ENV SOURCE_BRANCH=master
-ENV SOURCE_REPO=https://github.com/CenterForOpenScience/cos.io.git
-ENV UPDATE_CMD 'pip install -U -r requirements.txt && gosu www-data python manage.py collectstatic --noinput && gosu www-data bower install --config.interactive=false'
+ENV SOURCE_BRANCH=prod
+ENV SOURCE_REPO=https://github.com/CenterForOpenScience/centerforopenscience.org.git
+ENV UPDATE_CMD 'pip install -U -r requirements.txt'
 
 RUN pip install \
       invoke \
@@ -60,13 +60,12 @@ WORKDIR /code
 
 # perform an initial build to cache long running compilations
 RUN git clone -b $SOURCE_BRANCH $SOURCE_REPO . \
-    && cp mysite/default_local_settings.py mysite/local_settings.py \
     && chown -R www-data:www-data /code \
     && git rev-parse HEAD > /tmp/.commit
 
 RUN pip install -U -r requirements.txt
-RUN gosu www-data python manage.py collectstatic --noinput
-RUN gosu www-data bower install --config.interactive=false
+#RUN gosu www-data python manage.py collectstatic --noinput
+#RUN gosu www-data bower install --config.interactive=false
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
@@ -74,4 +73,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 VOLUME /code
 
-CMD ["python", "manage.py", "runserver"]
+CMD ["python", "main.py"]
