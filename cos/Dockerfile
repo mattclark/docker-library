@@ -48,24 +48,10 @@ RUN apt-get update \
 
 RUN npm install -g bower
 
-ENV SOURCE_BRANCH=prod
-ENV SOURCE_REPO=https://github.com/CenterForOpenScience/centerforopenscience.org.git
+ENV SOURCE_BRANCH='<CHANGE>
+ENV SOURCE_REPO='https://github.com/CenterForOpenScience/<CHANGE>'
 ENV UPDATE_CMD 'pip install -U -r requirements.txt'
-
-RUN pip install \
-      invoke \
-      uwsgi==2.0.10
-
 ENV WORKDIR '/<CHANGE>'
-
-# perform an initial build to cache long running compilations
-RUN git clone -b $SOURCE_BRANCH $SOURCE_REPO . \
-    && chown -R www-data:www-data /code \
-    && git rev-parse HEAD > /tmp/.commit
-
-RUN pip install -U -r requirements.txt
-#RUN gosu www-data python manage.py collectstatic --noinput
-#RUN gosu www-data bower install --config.interactive=false
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
