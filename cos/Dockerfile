@@ -56,7 +56,7 @@ RUN pip install \
       invoke \
       uwsgi==2.0.10
 
-WORKDIR /code
+ENV WORKDIR '/<CHANGE>'
 
 # perform an initial build to cache long running compilations
 RUN git clone -b $SOURCE_BRANCH $SOURCE_REPO . \
