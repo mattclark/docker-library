@@ -48,7 +48,7 @@ RUN apt-get update \
 
 RUN npm install -g bower
 
-ENV SOURCE_BRANCH='<CHANGE>
+ENV SOURCE_BRANCH='<CHANGE>'
 ENV SOURCE_REPO='https://github.com/CenterForOpenScience/<CHANGE>'
 ENV UPDATE_CMD 'pip install -U -r requirements.txt'
 ENV WORKDIR '/<CHANGE>'
