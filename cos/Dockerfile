@@ -51,7 +51,7 @@ RUN npm install -g bower
 ENV SOURCE_BRANCH='<CHANGE>'
 ENV SOURCE_REPO='https://github.com/CenterForOpenScience/<CHANGE>'
 ENV UPDATE_CMD 'pip install -U -r requirements.txt'
-ENV WORKDIR '/<CHANGE>'
+ENV WORKDIR '/'
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
