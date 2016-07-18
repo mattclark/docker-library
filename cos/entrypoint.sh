@@ -1,10 +1,13 @@
 #!/bin/bash
 set -e
 
-chown -R www-data:www-data /home || true
-chown -R www-data:www-data /code || true
+mkdir -p $WORKDIR
+cd $WORKDIR
 
-if [ ! -d /code/.git ]; then
+chown -R www-data:www-data /home || true
+chown -R www-data:www-data $WORKDIR || true
+
+if [ ! -d $WORKDIR/.git ]; then
     gosu www-data git init
 fi
 
