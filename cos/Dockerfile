@@ -48,9 +48,9 @@ RUN apt-get update \
 
 RUN npm install -g bower
 
-ENV SOURCE_BRANCH='<CHANGE>'
-ENV SOURCE_REPO='https://github.com/CenterForOpenScience/<CHANGE>'
-ENV UPDATE_CMD 'pip install -U -r requirements.txt'
+ENV SOURCE_BRANCH='master'
+ENV SOURCE_REPO='https://github.com/CenterForOpenScience/open_research_badges.git'
+#ENV UPDATE_CMD 'pip install -U -r requirements.txt'
 ENV WORKDIR '/'
 
 COPY entrypoint.sh /entrypoint.sh
@@ -59,4 +59,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 VOLUME /code
 
-CMD ["python", "main.py"]
+#CMD ["python", "main.py"]
